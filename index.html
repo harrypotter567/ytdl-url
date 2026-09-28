@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>My Downloader</title>
+<style>
+  body { font-family: Arial; background: #0a0e17; color: #e8edf5;
+         display: flex; flex-direction: column; align-items: center;
+         justify-content: center; min-height: 100vh; margin: 0; }
+  h1 { margin-bottom: 30px; }
+  .url-box { background: #141b26; padding: 20px 30px; border-radius: 14px;
+             border: 1px solid #1f2a36; font-size: 18px; word-break: break-all; }
+  a { color: #00cc66; text-decoration: none; font-size: 20px; }
+  .updated { color: #5a6f8a; font-size: 13px; margin-top: 15px; }
+  button { margin-top: 20px; padding: 12px 28px; background: #00cc66;
+           border: none; border-radius: 12px; color: white; font-weight: 700;
+           font-size: 16px; cursor: pointer; }
+  button:hover { background: #00b358; }
+</style>
+</head>
+<body>
+  <h1>🎬 My Downloader</h1>
+  <div class="url-box" id="box">Loading...</div>
+  <button onclick="copy()">Copy URL</button>
+  <div class="updated" id="upd"></div>
+
+  <script>
+    fetch('current-url.json').then(r => r.json()).then(d => {
+      document.getElementById('box').innerHTML = '<a href="' + d.url + '">' + d.url + '</a>';
+      document.getElementById('upd').textContent = 'Updated: ' + new Date(d.updated).toLocaleString();
+      window.CURRENT_URL = d.url;
+    });
+    function copy() {
+      navigator.clipboard.writeText(window.CURRENT_URL || '');
+      alert('Copied!');
+    }
+  </script>
+</body>
+</html>
